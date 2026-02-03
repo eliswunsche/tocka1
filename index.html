@@ -82,7 +82,7 @@ const colors = [
   "#ffccd5",
   "#ffc2d1",
   "#ffb3c6",
-  "#ff4d6d",
+  "#ffb3cc",
   "#ff8fab",
   "#ffb3c6"
 ];
@@ -140,19 +140,18 @@ labels.forEach((text, i) => {
 });
 
 function spin() {
-  // index "Penízky na benzín"
-  const targetIndex = 3;
-
+  const targetIndex = 3; // Penízky na benzín
   const rotations = 5 * 360;
 
-  // 10px od začátku výseče (extrémně těsné)
+  // 10px od ZAČÁTKU pole
   const offsetRadians = 10 / radius;
   const offsetDegrees = offsetRadians * (180 / Math.PI);
 
   const targetAngle =
-  rotations +
-  (360 - targetIndex * sliceAngle) +
-  offsetDegrees;
+    rotations +
+    270 -
+    targetIndex * sliceAngle +
+    offsetDegrees;
 
   wheel.style.transform = `rotate(${targetAngle}deg)`;
 }
