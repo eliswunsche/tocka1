@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Roztoč kolo štěstí 💕</title>
-
 <style>
   body {
     font-family: Arial, sans-serif;
     background: #ffe6ee;
     text-align: center;
+    margin: 0;
+    overflow-x: hidden;
   }
 
   h1 {
@@ -29,7 +30,7 @@
     border-right: 15px solid transparent;
     border-top: 30px solid #ff4d6d;
     position: absolute;
-    top: -15px; /* přesně na okraj kola */
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -54,9 +55,43 @@
     border-radius: 10px;
     cursor: pointer;
   }
+
+  /* Vítězný overlay */
+  .winner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    flex-direction: column;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    display: none; /* na začátku skryto */
+  }
+
+  /* Konfety */
+  .confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: yellow;
+    top: 0;
+    left: 50%;
+    animation: drop 2s linear forwards;
+  }
+
+  @keyframes drop {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(300px) rotate(360deg); }
+  }
 </style>
 </head>
-
 <body>
 
 <h1>Roztoč kolo štěstí 💘</h1>
@@ -67,6 +102,11 @@
 </div>
 
 <button onclick="spin()">Roztočit 💫</button>
+
+<!-- Overlay pro výhru -->
+<div id="winner" class="winner-overlay">
+  <div id="winner-text">Vyhrál jsi Penízky na benzín! 💰</div>
+</div>
 
 <script>
 const labels = [
@@ -141,19 +181,36 @@ labels.forEach((text, i) => {
 
 function spin() {
   const targetIndex = 3; // Penízky na benzín
-  const rotations = 5 * 360;
-
-  // 10px od ZAČÁTKU pole
-  const offsetRadians = 4 / radius;
+  const rotations = 5 * 360; // plných otoček
+  const offsetPixels = 2; // přesně na začátek segmentu
+  const offsetRadians = offsetPixels / radius;
   const offsetDegrees = offsetRadians * (180 / Math.PI);
 
-  const targetAngle =
-    rotations +
-    270 -
-    targetIndex * sliceAngle +
-    offsetDegrees;
+  // 270° = šipka směřuje nahoru
+  const targetAngle = rotations + 270 - targetIndex * sliceAngle + offsetDegrees;
 
   wheel.style.transform = `rotate(${targetAngle}deg)`;
+
+  // Po skončení otáčení zobrazit výherní overlay
+  setTimeout(showWinner, 6000); // stejné jako duration animace
+}
+
+function showWinner() {
+  const overlay = document.getElementById("winner");
+  overlay.style.display = "flex";
+
+  // přidáme pár konfet
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    confetti.style.animationDuration = (2 + Math.random()*2) + "s";
+    document.body.appendChild(confetti);
+
+    // po animaci se smažou
+    setTimeout(() => confetti.remove(), 4000);
+  }
 }
 </script>
 
