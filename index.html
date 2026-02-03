@@ -105,13 +105,13 @@
 
 <script>
 const labels = ["Masáž","Večeře","Striptýz","Penízky na benzín","Anál","Překvapení"];
-const colors = ["#ffccd5","#ffc2d1","#ffb3c6","#ffb3cc","#ff8fab","#ffb3c6"];
+const colors = ["#FFD1DC","#FFB3C6","#FFA6C9","#FF8FAB","#D4A5FF","#FFC6E0"];
 const wheel = document.getElementById("wheel");
 const center = 100;
 const radius = 100;
 const sliceAngle = 360 / labels.length;
 
-// Vykreslení segmentů
+// vykreslení segmentů
 labels.forEach((text, i) => {
   const start = i * sliceAngle;
   const end = start + sliceAngle;
@@ -156,7 +156,7 @@ function spin() {
   const offsetPixels = 2;
   const offsetDegrees = (offsetPixels/radius)*(180/Math.PI);
 
-  // opravený výpočet: odečíst od 360 místo 270
+  // opravený výpočet pro přesné zastavení na začátku segmentu
   const targetAngle = rotations + 360 - (targetIndex * sliceAngle) + offsetDegrees;
 
   wheel.style.transform = `rotate(${targetAngle}deg)`;
@@ -182,4 +182,5 @@ function showWinner(){
 
 </body>
 </html>
+
 
