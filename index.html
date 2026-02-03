@@ -8,19 +8,22 @@
   body {
     font-family: Arial, sans-serif;
     background: #ffe6ee;
-    text-align: center;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
   }
 
-  h1 { margin-top: 20px; font-size: 1.5rem; }
+  h1 { margin: 20px 0 10px 0; font-size: 1.5rem; text-align: center; }
 
   .wheel-container {
     position: relative;
     width: 90vw;
     max-width: 350px;
-    margin: 20px auto;
     aspect-ratio: 1 / 1;
   }
 
@@ -47,8 +50,8 @@
   }
 
   button {
-    margin-top: 15px;
-    padding: 10px 20px;
+    margin-top: 20px;
+    padding: 12px 25px;
     font-size: 1.2rem;
     background: #ff4d6d;
     color: white;
@@ -155,7 +158,12 @@ labels.forEach((text,i)=>{
 function spin(){
   const targetIndex = 3; // Penízky na benzín
   const rotations = 5*360;
-  const targetAngle = rotations + targetIndex*sliceAngle - sliceAngle/2; // přesně na začátek segmentu
+  const offsetPixels = 10; // prvních 10 px segmentu
+  const offsetDegrees = (offsetPixels/radius)*(180/Math.PI);
+
+  // správný úhel: zastaví na začátku segmentu + 10px
+  const targetAngle = rotations + targetIndex*sliceAngle - sliceAngle/2 + offsetDegrees;
+
   wheel.style.transform = `rotate(${targetAngle}deg)`;
   setTimeout(showWinner,6000);
 }
