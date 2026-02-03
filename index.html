@@ -3,16 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <title>Roztoč kolo štěstí 💕</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { font-family: Arial, sans-serif; background: #ffe6ee; text-align: center; margin:0; overflow-x:hidden; }
-  h1 { margin-top: 20px; }
-  .wheel-container { position: relative; width: 300px; height: 300px; margin: 40px auto; }
-  .pointer { width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-top:30px solid #ff4d6d; position:absolute; top:-15px; left:50%; transform:translateX(-50%); z-index:10; }
-  svg { width:100%; height:100%; border-radius:50%; border:8px solid #ff4d6d; background:white; transition: transform 6s cubic-bezier(0.15, 0.85, 0.25, 1); }
-  button { margin-top:20px; padding:12px 25px; font-size:18px; background:#ff4d6d; color:white; border:none; border-radius:10px; cursor:pointer; }
-  .winner-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; justify-content:center; align-items:center; z-index:100; flex-direction:column; color:white; font-size:24px; text-align:center; display:none; }
-  .confetti { position:absolute; width:8px; height:8px; background:yellow; top:0; left:50%; animation: drop 2s linear forwards; }
-  @keyframes drop { 0%{transform:translateY(0) rotate(0deg);} 100%{transform:translateY(300px) rotate(360deg);} }
+  body {
+    font-family: Arial, sans-serif;
+    background: #ffe6ee;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  h1 { margin-top: 20px; font-size: 1.5rem; }
+
+  .wheel-container {
+    position: relative;
+    width: 90vw;
+    max-width: 350px;
+    margin: 20px auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .pointer {
+    width: 0;
+    height: 0;
+    border-left: 5vw solid transparent;
+    border-right: 5vw solid transparent;
+    border-top: 10vw solid #ff4d6d;
+    position: absolute;
+    top: -5vw;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4vw solid #ff4d6d;
+    background: white;
+    transition: transform 6s cubic-bezier(0.15, 0.85, 0.25, 1);
+  }
+
+  button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .winner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    flex-direction: column;
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    display: none;
+    padding: 10px;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 4vw;
+    height: 4vw;
+    top: 0;
+    animation: drop 2s linear forwards;
+  }
+
+  @keyframes drop {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(120vh) rotate(360deg); }
+  }
+
+  svg text {
+    font-size: 3vw;
+  }
+
+  svg tspan {
+    font-size: 3vw;
+  }
 </style>
 </head>
 <body>
@@ -22,7 +105,9 @@
   <div class="pointer"></div>
   <svg id="wheel" viewBox="0 0 200 200"></svg>
 </div>
+
 <button onclick="spin()">Roztočit 💫</button>
+
 <div id="winner" class="winner-overlay">
   <div id="winner-text">Vyhrál jsi Penízky na benzín! 💰</div>
 </div>
@@ -55,7 +140,6 @@ labels.forEach((text,i)=>{
   label.setAttribute("y",center-60);
   label.setAttribute("text-anchor","middle");
   label.setAttribute("transform",`rotate(${start+sliceAngle/2} ${center} ${center})`);
-  label.style.fontSize="10px";
 
   if(text==="Penízky na benzín"){
     const t1 = document.createElementNS("http://www.w3.org/2000/svg","tspan");
@@ -71,14 +155,8 @@ labels.forEach((text,i)=>{
 function spin(){
   const targetIndex = 3; // Penízky na benzín
   const rotations = 5*360;
-  const offsetPixels = 1.5;
-  const offsetDegrees = (offsetPixels/radius)*(180/Math.PI);
-
-  // opravuje pozici, zastaví přesně na segment
-  const targetAngle = rotations + 90 - targetIndex*sliceAngle + offsetDegrees;
-
+  const targetAngle = rotations + targetIndex*sliceAngle - sliceAngle/2; // přesně na začátek segmentu
   wheel.style.transform = `rotate(${targetAngle}deg)`;
-
   setTimeout(showWinner,6000);
 }
 
@@ -99,7 +177,3 @@ function showWinner(){
 </script>
 </body>
 </html>
-
-
-
-
