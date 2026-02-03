@@ -105,13 +105,13 @@
 
 <script>
 const labels = ["Masáž","Večeře","Striptýz","Penízky na benzín","Anál","Překvapení"];
-const colors = ["#FFD1DC","#FFB3C6","#FFA6C9","#FF8FAB","#D4A5FF","#FFC6E0"];
+const colors = ["#FFD1DC","#FFB3C6","#FFA6C9","#FF8FAB","#FF6F8F","#FFC6E0"];
 const wheel = document.getElementById("wheel");
 const center = 100;
 const radius = 100;
 const sliceAngle = 360 / labels.length;
 
-// vykreslení segmentů
+// Vykreslení segmentů
 labels.forEach((text, i) => {
   const start = i * sliceAngle;
   const end = start + sliceAngle;
@@ -152,11 +152,11 @@ labels.forEach((text, i) => {
 
 function spin() {
   const targetIndex = 3; // Penízky na benzín
-  const rotations = 5*360;
-  const offsetPixels = 2;
+  const rotations = 5*360; // plných otoček
+  const offsetPixels = 1.5; // jemný posun na začátek segmentu
   const offsetDegrees = (offsetPixels/radius)*(180/Math.PI);
 
-  // opravený výpočet pro přesné zastavení na začátku segmentu
+  // správný výpočet úhlu pro přesné zastavení segmentu
   const targetAngle = rotations + 360 - (targetIndex * sliceAngle) + offsetDegrees;
 
   wheel.style.transform = `rotate(${targetAngle}deg)`;
@@ -172,7 +172,7 @@ function showWinner(){
     const confetti = document.createElement("div");
     confetti.className="confetti";
     confetti.style.left = Math.random()*window.innerWidth + "px";
-    confetti.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    confetti.style.background = `hsl(${Math.random()*10+0},100%,70%)`; // jemně červené konfety
     confetti.style.animationDuration=(2+Math.random()*2)+"s";
     document.body.appendChild(confetti);
     setTimeout(()=>confetti.remove(),4000);
@@ -182,5 +182,6 @@ function showWinner(){
 
 </body>
 </html>
+
 
 
