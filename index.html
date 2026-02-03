@@ -105,7 +105,7 @@
 
 <script>
 const labels = ["Masáž","Večeře","Penízky na benzín","Anál","Striptýz","Překvapení"];
-const colors = ["#FFD1DC","#FFB3C6","#FFA6C9","#FF8FAB","#FF6FAF","#FFC6E0"];
+const colors = ["#FFD1DC","#FFB3C6","#FFA6C9","#FF8FAB","#F09CB9","#FFC6E0"];
 const wheel = document.getElementById("wheel");
 const center = 100;
 const radius = 100;
@@ -151,7 +151,7 @@ labels.forEach((text, i) => {
 });
 
 function spin() {
-  const targetIndex = 3; // Penízky na benzín
+  const targetIndex = 4; // Penízky na benzín
   const rotations = 5*360; // plných otoček
   const offsetPixels = 1.5; // jemný posun na začátek segmentu
   const offsetDegrees = (offsetPixels/radius)*(180/Math.PI);
