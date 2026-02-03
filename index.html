@@ -150,9 +150,9 @@ function spin() {
   const offsetDegrees = offsetRadians * (180 / Math.PI);
 
   const targetAngle =
-    rotations +
-    (360 - targetIndex * sliceAngle) -
-    offsetDegrees;
+  rotations +
+  (360 - targetIndex * sliceAngle) +
+  offsetDegrees;
 
   wheel.style.transform = `rotate(${targetAngle}deg)`;
 }
