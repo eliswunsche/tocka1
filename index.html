@@ -19,16 +19,17 @@
   }
 
   .pointer {
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 30px solid #ff4d6d;
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 30px solid #ff4d6d;
+
+  position: absolute;
+  top: -15px;         
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }
   svg {
     width: 100%;
@@ -68,9 +69,9 @@ const labels = [
   "Masáž",
   "Večeře",
   "Striptýz",
-  "Překvapení",
   "Penízky na benzín",
-  "Anál"
+  "Anál",
+  "Překvapení"
 ];
 
 const colors = [
@@ -119,7 +120,7 @@ labels.forEach((text, i) => {
 
 function spin() {
   // index 4 = "Penízky na benzín"
-  const targetIndex = 4;
+  const targetIndex = 3;
   const rotations = 5 * 360;
   const targetAngle =
     rotations +
