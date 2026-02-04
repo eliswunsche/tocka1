@@ -4,127 +4,122 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Kolo lásky 💘</title>
+
 <style>
-  body {
-    margin: 0;
-    font-family: "Segoe UI", sans-serif;
-    background: radial-gradient(circle at top, #ffb6c1, #ff69b4);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-  }
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #ffb6c1, #ff69b4);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
 
-  .app {
-    text-align: center;
-    width: 100%;
-    max-width: 360px;
-    padding: 20px;
-  }
+.app {
+  text-align: center;
+  max-width: 360px;
+  width: 100%;
+}
 
-  h1 {
-    margin-bottom: 20px;
-    font-size: 1.6rem;
-  }
+h1 {
+  margin-bottom: 16px;
+}
 
-  .wheel-container {
-    position: relative;
-    width: 280px;
-    height: 280px;
-    margin: 0 auto 20px;
-  }
+.wheel-container {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto 20px;
+}
 
-  canvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: #fff;
-  }
+canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #fff;
+}
 
-  .pointer {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 20px solid #fff;
-  }
+/* 🔻 ŠIPKA DOLE, SMĚŘUJE NAHORU KE KOLU */
+.pointer {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 22px solid white;
+}
 
-  button {
-    background: #fff;
-    color: #ff1493;
-    border: none;
-    padding: 14px 26px;
-    font-size: 1.1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  }
+button {
+  background: white;
+  color: #ff1493;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-  button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+button:disabled {
+  opacity: 0.6;
+}
 
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  }
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
 
-  .result {
-    background: #fff;
-    color: #ff1493;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 300px;
-    animation: pop 0.5s ease;
-  }
+.result {
+  background: white;
+  color: #ff1493;
+  padding: 28px;
+  border-radius: 20px;
+  text-align: center;
+  animation: pop 0.4s ease;
+}
 
-  @keyframes pop {
-    0% { transform: scale(0.7); }
-    100% { transform: scale(1); }
-  }
+@keyframes pop {
+  from { transform: scale(0.7); }
+  to { transform: scale(1); }
+}
 
-  .confetti {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 20;
-  }
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
 
-  .heart {
-    position: absolute;
-    color: pink;
-    font-size: 20px;
-    animation: fall 3s linear infinite;
-  }
+.heart {
+  position: absolute;
+  animation: fall 3s linear infinite;
+  font-size: 22px;
+}
 
-  @keyframes fall {
-    0% { transform: translateY(-10%); opacity: 1; }
-    100% { transform: translateY(110vh); opacity: 0; }
-  }
+@keyframes fall {
+  from { transform: translateY(-10vh); opacity: 1; }
+  to { transform: translateY(110vh); opacity: 0; }
+}
 </style>
 </head>
+
 <body>
 
 <div class="app">
   <h1>Roztoč kolo lásky 💘</h1>
 
   <div class="wheel-container">
-    <div class="pointer"></div>
     <canvas id="wheel" width="300" height="300"></canvas>
+    <div class="pointer"></div>
   </div>
 
   <button id="spinBtn">ROZTOČIT 💞</button>
@@ -132,7 +127,7 @@
 
 <div class="overlay" id="overlay">
   <div class="result">
-    <h2>🎉 Gratuluju! 🎉</h2>
+    <h2>🎉 Gratuluju 🎉</h2>
     <p><strong>Vyhrál jsi penízky na benzín ⛽❤️</strong></p>
   </div>
 </div>
@@ -148,7 +143,7 @@ const confetti = document.getElementById("confetti");
 
 const items = [
   "anál",
-  "penízky na benzín",
+  "penízky\nna benzín",
   "striptease",
   "večeře",
   "masáž",
@@ -156,12 +151,13 @@ const items = [
 ];
 
 const colors = ["#ff69b4", "#ff1493"];
-
-let rotation = 0;
 const slice = (2 * Math.PI) / items.length;
+let rotation = 0;
 
 function drawWheel() {
-  for (let i = 0; i < items.length; i++) {
+  ctx.clearRect(0, 0, 300, 300);
+
+  items.forEach((text, i) => {
     ctx.beginPath();
     ctx.moveTo(150, 150);
     ctx.fillStyle = colors[i % 2];
@@ -179,36 +175,44 @@ function drawWheel() {
     ctx.rotate(rotation + i * slice + slice / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "#fff";
-    ctx.font = "16px sans-serif";
-    ctx.fillText(items[i], 130, 5);
+    ctx.font = "15px sans-serif";
+
+    text.split("\n").forEach((line, idx) => {
+      ctx.fillText(line, 130, idx * 18 - 6);
+    });
+
     ctx.restore();
-  }
+  });
 }
 
 drawWheel();
 
-spinBtn.addEventListener("click", () => {
+spinBtn.onclick = () => {
   spinBtn.disabled = true;
 
-  // CÍL: první pixely "penízky na benzín"
-  const targetIndex = 1;
+  const targetIndex = 1; // penízky na benzín
   const extraSpins = 6 * 2 * Math.PI;
-  const offset = slice * targetIndex + 0.05; // první pixely
-  const targetRotation = extraSpins - offset;
 
-  let start = null;
-  const duration = 4000;
+  // 🎯 spodní střed (π/2) + lehký dojezd
+  const targetAngle = Math.PI / 2;
+  const stopRotation =
+    extraSpins +
+    targetAngle -
+    (targetIndex + 0.5) * slice +
+    0.08;
 
-  function animate(timestamp) {
-    if (!start) start = timestamp;
-    const progress = Math.min((timestamp - start) / duration, 1);
-    const easeOut = 1 - Math.pow(1 - progress, 3);
+  let start;
+  const duration = 4200;
 
-    rotation = easeOut * targetRotation;
-    ctx.clearRect(0, 0, 300, 300);
+  function animate(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+
+    rotation = ease * stopRotation;
     drawWheel();
 
-    if (progress < 1) {
+    if (p < 1) {
       requestAnimationFrame(animate);
     } else {
       showResult();
@@ -216,22 +220,18 @@ spinBtn.addEventListener("click", () => {
   }
 
   requestAnimationFrame(animate);
-});
+};
 
 function showResult() {
   overlay.style.display = "flex";
-  createConfetti();
-}
 
-function createConfetti() {
   for (let i = 0; i < 30; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "💖";
-    heart.style.left = Math.random() * 100 + "%";
-    heart.style.animationDelay = Math.random() * 2 + "s";
-    heart.style.fontSize = 16 + Math.random() * 20 + "px";
-    confetti.appendChild(heart);
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = "💖";
+    h.style.left = Math.random() * 100 + "%";
+    h.style.animationDelay = Math.random() * 2 + "s";
+    confetti.appendChild(h);
   }
 }
 </script>
