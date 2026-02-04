@@ -206,33 +206,22 @@ const finalRotation = fullRotation + targetStart;
   const duration = 4200;
 
 function animate(ts) {
-  if (!start) start = ts;
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
 
-  const elapsed = ts - start;
-  const p = Math.min(elapsed / duration, 1);
-
-  // klasický easeOutCubic – SPOLEHLIVÝ
-  let eased = 1 - Math.pow(1 - p, 3);
-
-  // extra pomalý dojezd v posledních 20 %
-  if (p > 0.8) {
-    const tail = (p - 0.8) / 0.2; // 0 → 1
-    eased = 0.95 + tail * 0.05;   // velmi pomalé doplazení
-  }
-
-  rotation = eased * finalRotation;
-  drawWheel();
-
-  if (p < 1) {
-    requestAnimationFrame(animate);
-  } else {
-    rotation = finalRotation;
+    rotation = ease * finalRotation;
     drawWheel();
-    showResult();
-  }
-  requestAnimationFrame(animate);
-}
 
+    if (p < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      showResult();
+    }
+  }
+
+  requestAnimationFrame(animate);
+};
 function showResult() {
   overlay.style.display = "flex";
 
