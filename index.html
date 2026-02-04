@@ -194,11 +194,13 @@ spinBtn.onclick = () => {
   const spins = 6; // počet celých otoček
   const fullRotation = spins * 2 * Math.PI;
 
-  const pointerAngle = 3 * Math.PI / 2; // 🔻 šipka dole
-  const targetCenter =
-    pointerAngle - (targetIndex + 0.5) * slice;
+ const pointerAngle = 3 * Math.PI / 2; // šipka dole
+const tightOffset = 0.02; // 👈 první pixely (čím menší, tím těsnější)
 
-  const finalRotation = fullRotation + targetCenter + 0.06; // lehký dojezd
+const targetStart =
+  pointerAngle - targetIndex * slice + tightOffset;
+
+const finalRotation = fullRotation + targetStart;
 
   let start;
   const duration = 4200;
