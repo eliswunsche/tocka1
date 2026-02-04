@@ -205,31 +205,29 @@ const finalRotation = fullRotation + targetStart;
   let start;
   const duration = 4200;
 
-  function animate(ts) {
-    if (!start) start = ts;
-    const p = Math.min((ts - start) / duration, 1);
+function animate(ts) {
+  if (!start) start = ts;
 
-    let eased;
-    if (p < 0.85) {
-      eased = 1 - Math.pow(1 - p, 3);
-    } else {
-      const tail = (p - 0.85) / 0.15;
-      eased = 0.97 + tail * 0.03;
-    }
+  const p = Math.min((ts - start) / duration, 1);
 
-    rotation = eased * finalRotation;
+  // základní easing
+  const easeOut = 1 - Math.pow(1 - p, 3);
 
+  // extra zpomalení na konci (plynule)
+  const slowFactor = Math.pow(p, 6); 
+  const eased = easeOut * (1 - 0.15 * slowFactor);
+
+  rotation = eased * finalRotation;
+  drawWheel();
+
+  if (p < 1) {
+    requestAnimationFrame(animate);
+  } else {
+    rotation = finalRotation; // dorovná přesně
     drawWheel();
-
-    if (p < 1) {
-      requestAnimationFrame(animate);
-    } else {
-      showResult();
-    }
+    showResult();
   }
-
-  requestAnimationFrame(animate);
-};
+}
 
 function showResult() {
   overlay.style.display = "flex";
