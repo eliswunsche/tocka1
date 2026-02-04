@@ -143,14 +143,14 @@ const confetti = document.getElementById("confetti");
 
 const items = [
   "anál",
-  "penízky na\nbenzín",
+  "penízky\nna benzín",
   "striptease",
   "večeře",
   "masáž",
   "překvapko"
 ];
 
-const colors = ["#ffcfe2", "#ffc3d4"];
+const colors = ["#ff69b4", "#ff1493"];
 const slice = (2 * Math.PI) / items.length;
 let rotation = 0;
 
@@ -190,16 +190,15 @@ drawWheel();
 spinBtn.onclick = () => {
   spinBtn.disabled = true;
 
-  const targetIndex = 1; // penízky na benzín
-  const extraSpins = 6 * 2 * Math.PI;
+  const targetIndex = 1; // PENÍZKY NA BENZÍN
+  const spins = 6; // počet celých otoček
+  const fullRotation = spins * 2 * Math.PI;
 
-  // 🎯 spodní střed (π/2) + lehký dojezd
-  const targetAngle = Math.PI / 2;
-  const stopRotation =
-    extraSpins +
-    targetAngle -
-    (targetIndex + 0.5) * slice +
-    0.08;
+  const pointerAngle = 3 * Math.PI / 2; // 🔻 šipka dole
+  const targetCenter =
+    pointerAngle - (targetIndex + 0.5) * slice;
+
+  const finalRotation = fullRotation + targetCenter + 0.06; // lehký dojezd
 
   let start;
   const duration = 4200;
@@ -209,7 +208,7 @@ spinBtn.onclick = () => {
     const p = Math.min((ts - start) / duration, 1);
     const ease = 1 - Math.pow(1 - p, 3);
 
-    rotation = ease * stopRotation;
+    rotation = ease * finalRotation;
     drawWheel();
 
     if (p < 1) {
