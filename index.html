@@ -208,9 +208,17 @@ const finalRotation = fullRotation + targetStart;
   function animate(ts) {
     if (!start) start = ts;
     const p = Math.min((ts - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - p, 3);
 
-    rotation = ease * finalRotation;
+    let eased;
+    if (p < 0.85) {
+      eased = 1 - Math.pow(1 - p, 3);
+    } else {
+      const tail = (p - 0.85) / 0.15;
+      eased = 0.97 + tail * 0.03;
+    }
+
+    rotation = eased * finalRotation;
+
     drawWheel();
 
     if (p < 1) {
