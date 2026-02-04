@@ -1,242 +1,218 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kolo lásky 💘</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kolo lásky 💘</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #ffb6c1, #ff69b4);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #ffb6c1, #ff69b4);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-}
+    .app {
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+    }
 
-.app {
-  text-align: center;
-  max-width: 360px;
-  width: 100%;
-}
+    h1 {
+      margin-bottom: 16px;
+    }
 
-h1 {
-  margin-bottom: 16px;
-}
+    .wheel-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto 20px;
+    }
 
-.wheel-container {
-  position: relative;
-  width: 280px;
-  height: 280px;
-  margin: 0 auto 20px;
-}
+    canvas {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #fff;
+    }
 
-canvas {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: #fff;
-}
+    .pointer {
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 30px solid #ffffff;
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
 
- .pointer {
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 30px solid #ffffff;
-    position: absolute;
-    top: -15px; /* přesně na okraj kola */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-  }
+    button {
+      background: white;
+      color: #ff1493;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-button {
-  background: white;
-  color: #ff1493;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 30px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
+    button:disabled {
+      opacity: 0.6;
+    }
 
-button:disabled {
-  opacity: 0.6;
-}
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
+    .result {
+      background: white;
+      color: #ff1493;
+      padding: 28px;
+      border-radius: 20px;
+      text-align: center;
+      animation: pop 0.4s ease;
+    }
 
-.result {
-  background: white;
-  color: #ff1493;
-  padding: 28px;
-  border-radius: 20px;
-  text-align: center;
-  animation: pop 0.4s ease;
-}
+    @keyframes pop {
+      from { transform: scale(0.7); }
+      to { transform: scale(1); }
+    }
 
-@keyframes pop {
-  from { transform: scale(0.7); }
-  to { transform: scale(1); }
-}
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
 
-.confetti {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
+    .heart {
+      position: absolute;
+      animation: fall 3s linear infinite;
+      font-size: 22px;
+    }
 
-.heart {
-  position: absolute;
-  animation: fall 3s linear infinite;
-  font-size: 22px;
-}
-
-@keyframes fall {
-  from { transform: translateY(-10vh); opacity: 1; }
-  to { transform: translateY(110vh); opacity: 0; }
-}
-</style>
+    @keyframes fall {
+      from { transform: translateY(-10vh); opacity: 1; }
+      to { transform: translateY(110vh); opacity: 0; }
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="app">
-  <h1>Roztoč kolo lásky 💘</h1>
-
-  <div class="wheel-container">
-    <canvas id="wheel" width="300" height="300"></canvas>
-    <div class="pointer"></div>
+  <div class="app">
+    <h1>Roztoč kolo lásky 💘</h1>
+    <div class="wheel-container">
+      <canvas id="wheel" width="300" height="300"></canvas>
+      <div class="pointer"></div>
+    </div>
+    <button id="spinBtn">ROZTOČIT 💞</button>
   </div>
 
-  <button id="spinBtn">ROZTOČIT 💞</button>
-</div>
-
-<div class="overlay" id="overlay">
-  <div class="result">
-    <h2>🎉 Gratuluju 🎉</h2>
-    <p><strong>Vyhrál jsi penízky na benzín ⛽❤️</strong></p>
+  <div class="overlay" id="overlay">
+    <div class="result">
+      <h2>🎉 Gratuluju 🎉</h2>
+      <p><strong>Vyhrál jsi penízky na benzín ⛽❤️</strong></p>
+    </div>
   </div>
-</div>
 
-<div class="confetti" id="confetti"></div>
+  <div class="confetti" id="confetti"></div>
 
-<script>
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
-const spinBtn = document.getElementById("spinBtn");
-const overlay = document.getElementById("overlay");
-const confetti = document.getElementById("confetti");
+  <script>
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const spinBtn = document.getElementById("spinBtn");
+    const overlay = document.getElementById("overlay");
+    const confetti = document.getElementById("confetti");
 
-const items = [
-  "anál",
-  "striptease",
-  "večeře",
-  "masáž",
-  "překvapko"
-  "penízky\nna benzín",
-];
+    const items = [
+      "penízky\nna benzín",
+      "anál",
+      "striptease",
+      "večeře",
+      "masáž",
+      "překvapko"
+    ];
 
-const colors = ["#ff69b4", "#ff1493"];
-const slice = (2 * Math.PI) / items.length;
-let rotation = 0;
+    const colors = ["#ff69b4", "#ff1493"];
+    const slice = (2 * Math.PI) / items.length;
+    let rotation = 0;
 
-function drawWheel() {
-  ctx.clearRect(0, 0, 300, 300);
+    function drawWheel() {
+      ctx.clearRect(0, 0, 300, 300);
+      items.forEach((text, i) => {
+        ctx.beginPath();
+        ctx.moveTo(150, 150);
+        ctx.fillStyle = colors[i % 2];
+        ctx.arc(150, 150, 140, rotation + i * slice, rotation + (i + 1) * slice);
+        ctx.fill();
 
-  items.forEach((text, i) => {
-    ctx.beginPath();
-    ctx.moveTo(150, 150);
-    ctx.fillStyle = colors[i % 2];
-    ctx.arc(
-      150,
-      150,
-      140,
-      rotation + i * slice,
-      rotation + (i + 1) * slice
-    );
-    ctx.fill();
+        ctx.save();
+        ctx.translate(150, 150);
+        ctx.rotate(rotation + i * slice + slice / 2);
+        ctx.textAlign = "right";
+        ctx.fillStyle = "#fff";
+        ctx.font = "15px sans-serif";
+        text.split("\n").forEach((line, idx) => {
+          ctx.fillText(line, 130, idx * 18 - 6);
+        });
+        ctx.restore();
+      });
+    }
 
-    ctx.save();
-    ctx.translate(150, 150);
-    ctx.rotate(rotation + i * slice + slice / 2);
-    ctx.textAlign = "right";
-    ctx.fillStyle = "#fff";
-    ctx.font = "15px sans-serif";
-
-    text.split("\n").forEach((line, idx) => {
-      ctx.fillText(line, 130, idx * 18 - 6);
-    });
-
-    ctx.restore();
-  });
-}
-
-drawWheel();
-
-spinBtn.onclick = () => {
-  spinBtn.disabled = true;
-
-  const targetIndex = 0; // PENÍZKY NA BENZÍN
-  const spins = 6; // počet celých otoček
-  const fullRotation = spins * 2 * Math.PI;
-
-  const pointerAngle = 3 * Math.PI / 2; // šipka dole
-  const tightOffset = 0.02;
-
-  const targetStart =
-    pointerAngle - targetIndex * slice + tightOffset;
-
-  const finalRotation = fullRotation + targetStart;
-
-  let start;
-  const duration = 7000; // prodloužená doba pro dramatický efekt
-
-  function animate(ts) {
-    if (!start) start = ts;
-    const p = Math.min((ts - start) / duration, 1);
-
-    // dramatické zpomalení: exponenciální ease-out
-    const ease = 1 - Math.pow(1 - p, 4);
-
-    rotation = ease * finalRotation;
     drawWheel();
 
-    if (p < 1) {
+    spinBtn.onclick = () => {
+      spinBtn.disabled = true;
+      const targetIndex = 0; // penízky na benzín
+      const spins = 6;
+      const fullRotation = spins * 2 * Math.PI;
+      const pointerAngle = 3 * Math.PI / 2;
+      const tightOffset = 0.02;
+      const targetStart = pointerAngle - targetIndex * slice + tightOffset;
+      const finalRotation = fullRotation + targetStart;
+
+      let start;
+      const duration = 4200;
+
+      function animate(ts) {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - Math.sin((p * Math.PI) / 2), 2);
+        rotation = ease * finalRotation;
+        drawWheel();
+        if (p < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          showResult();
+        }
+      }
+
       requestAnimationFrame(animate);
-    } else {
-      showResult();
+    };
+
+    function showResult() {
+      overlay.style.display = "flex";
+      for (let i = 0; i < 30; i++) {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.textContent = "💖";
+        h.style.left = Math.random() * 100 + "%";
+        h.style.animationDelay = Math.random() * 2 + "s";
+        confetti.appendChild(h);
+      }
     }
-  }
-
-  requestAnimationFrame(animate);
-};
-function showResult() {
-  overlay.style.display = "flex";
-
-  for (let i = 0; i < 30; i++) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.textContent = "💖";
-    h.style.left = Math.random() * 100 + "%";
-    h.style.animationDelay = Math.random() * 2 + "s";
-    confetti.appendChild(h);
-  }
-}
-</script>
-
+  </script>
 </body>
 </html>
