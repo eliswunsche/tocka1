@@ -208,14 +208,17 @@ const finalRotation = fullRotation + targetStart;
 function animate(ts) {
   if (!start) start = ts;
 
-  const p = Math.min((ts - start) / duration, 1);
+  const elapsed = ts - start;
+  const p = Math.min(elapsed / duration, 1);
 
-  // základní easing
-  const easeOut = 1 - Math.pow(1 - p, 3);
+  // klasický easeOutCubic – SPOLEHLIVÝ
+  let eased = 1 - Math.pow(1 - p, 3);
 
-  // extra zpomalení na konci (plynule)
-  const slowFactor = Math.pow(p, 6); 
-  const eased = easeOut * (1 - 0.15 * slowFactor);
+  // extra pomalý dojezd v posledních 20 %
+  if (p > 0.8) {
+    const tail = (p - 0.8) / 0.2; // 0 → 1
+    eased = 0.95 + tail * 0.05;   // velmi pomalé doplazení
+  }
 
   rotation = eased * finalRotation;
   drawWheel();
@@ -223,7 +226,7 @@ function animate(ts) {
   if (p < 1) {
     requestAnimationFrame(animate);
   } else {
-    rotation = finalRotation; // dorovná přesně
+    rotation = finalRotation;
     drawWheel();
     showResult();
   }
