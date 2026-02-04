@@ -190,25 +190,27 @@ drawWheel();
 spinBtn.onclick = () => {
   spinBtn.disabled = true;
 
-  const targetIndex = 1; // PENÍZKY NA BENZÍN
+  const targetIndex = 0; // PENÍZKY NA BENZÍN
   const spins = 6; // počet celých otoček
   const fullRotation = spins * 2 * Math.PI;
 
- const pointerAngle = 3 * Math.PI / 2; // šipka dole
-const tightOffset = 0.02; // 👈 první pixely (čím menší, tím těsnější)
+  const pointerAngle = 3 * Math.PI / 2; // šipka dole
+  const tightOffset = 0.02;
 
-const targetStart =
-  pointerAngle - targetIndex * slice + tightOffset;
+  const targetStart =
+    pointerAngle - targetIndex * slice + tightOffset;
 
-const finalRotation = fullRotation + targetStart;
+  const finalRotation = fullRotation + targetStart;
 
   let start;
-  const duration = 4200;
+  const duration = 7000; // prodloužená doba pro dramatický efekt
 
-function animate(ts) {
+  function animate(ts) {
     if (!start) start = ts;
     const p = Math.min((ts - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - Math.sin((p * Math.PI) / 2), 2);
+
+    // dramatické zpomalení: exponenciální ease-out
+    const ease = 1 - Math.pow(1 - p, 4);
 
     rotation = ease * finalRotation;
     drawWheel();
